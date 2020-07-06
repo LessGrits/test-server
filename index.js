@@ -10,15 +10,17 @@ app.listen(5000, () => {
   console.log('server run on port 5000');
 });
 
-client.connect().then(()=>console.log('connection success'));
+client.connect()
+  .then(()=>console.log('connection success'))
+  .catch(e=> console.error(e));
 
 //create a hotdog
 app.post('/hotdogs', async (req, res) => {
   try {
     console.log(req.body);
-    const {description} = req.body;
-    const newHotdog = await client.query(`INSERT INTO Hotdogs (name,photo_url,description,price) VALUES ('first-hot','google-photo',$1,50 )`,
-      [description]
+    const {description,name,price,photoUrl} = req.body;
+    const newHotdog = await client.query(`INSERT INTO Hotdogs (name,photo_url,description,price) VALUES ($1,$2,$3,$4 )`,
+      [name, photoUrl, description, price]
     );
     res.json(newHotdog)
   } catch (err) {
@@ -58,9 +60,9 @@ app.get("/hotdogs/:id", async (req,res)=>{
 app.put("/hotdogs/:id", async (req, res) =>{
   try{
     const {id}= req.params;
-    const {name,photoUrl,description,price}  = req.body;
+    const {name,photo_url,description,price}  = req.body;
     const updateRecord = await client.query("UPDATE Hotdogs SET name = $1, photo_url = $2, description = $3, price = $4  WHERE hotdog_id = $5 ",
-      [name,photoUrl,description,price, id]);
+      [name,photo_url,description,price, id]);
     res.json(`success update hotdog with id ${id}`);
   }catch(err){
     console.error(err.message)
