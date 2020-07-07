@@ -11,14 +11,14 @@ app.listen(5000, () => {
 });
 
 client.connect()
-  .then(()=>console.log('connection success'))
-  .catch(e=> console.error(e));
+  .then(() => console.log('connection success'))
+  .catch(e => console.error(e));
 
 //create a hotdog
 app.post('/hotdogs', async (req, res) => {
   try {
     console.log(req.body);
-    const {description,name,price,photoUrl} = req.body;
+    const {description, name, price, photoUrl} = req.body;
     const newHotdog = await client.query(`INSERT INTO Hotdogs (name,photo_url,description,price) VALUES ($1,$2,$3,$4 )`,
       [name, photoUrl, description, price]
     );
@@ -30,12 +30,11 @@ app.post('/hotdogs', async (req, res) => {
 
 //get all hotdogs
 
-app.get("/hotdogs",  async (req, res)=>{
-  try{
+app.get("/hotdogs", async (req, res) => {
+  try {
     const allRecords = await client.query("SELECT * FROM Hotdogs");
     await res.json(allRecords.rows)
-  }
-  catch(err){
+  } catch (err) {
     console.error(err.message)
   }
 
@@ -43,13 +42,12 @@ app.get("/hotdogs",  async (req, res)=>{
 
 //get a hotdogs
 
-app.get("/hotdogs/:id", async (req,res)=>{
-  try{
+app.get("/hotdogs/:id", async (req, res) => {
+  try {
     const {id} = req.params;
-    const record = await client.query("SELECT * FROM Hotdogs WHERE hotdog_id=$1",[id]);
+    const record = await client.query("SELECT * FROM Hotdogs WHERE hotdog_id=$1", [id]);
     await res.json(record.rows[0]);
-  }
-  catch(err){
+  } catch (err) {
     console.error(err.message);
   }
 
@@ -57,14 +55,14 @@ app.get("/hotdogs/:id", async (req,res)=>{
 
 //update a hotdog
 
-app.put("/hotdogs/:id", async (req, res) =>{
-  try{
-    const {id}= req.params;
-    const {name,photo_url,description,price}  = req.body;
+app.put("/hotdogs/:id", async (req, res) => {
+  try {
+    const {id} = req.params;
+    const {name, photo_url, description, price} = req.body;
     const updateRecord = await client.query("UPDATE Hotdogs SET name = $1, photo_url = $2, description = $3, price = $4  WHERE hotdog_id = $5 ",
-      [name,photo_url,description,price, id]);
+      [name, photo_url, description, price, id]);
     res.json(`success update hotdog with id ${id}`);
-  }catch(err){
+  } catch (err) {
     console.error(err.message)
   }
 });
@@ -72,13 +70,12 @@ app.put("/hotdogs/:id", async (req, res) =>{
 
 //delete a hotdog
 
-app.delete("/hotdogs/:id", async (req,res)=>{
-  try{
+app.delete("/hotdogs/:id", async (req, res) => {
+  try {
     const {id} = req.params;
     const deleteRecord = await client.query("DELETE FROM Hotdogs WHERE hotdog_id = $1", [id]);
     res.json(`hotdog with id ${id} deleted`)
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err.message);
   }
 });
