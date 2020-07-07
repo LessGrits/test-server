@@ -3,11 +3,14 @@ const app = express();
 const cors = require('cors');
 const client = require('./connect');
 
+const PORT = process.env.PORT || 80;
+
 app.use(cors());
 app.use(express.json());
 
-app.listen(5000, () => {
-  console.log('server run on port 5000');
+
+app.listen(PORT, () => {
+  console.log('server run on port 80');
 });
 
 client.connect()
