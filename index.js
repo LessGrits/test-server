@@ -1,16 +1,17 @@
 const express = require('express');
+
 const app = express();
+
 const cors = require('cors');
 const client = require('./connect');
-
-const PORT = process.env.PORT || 80;
+const { port } = require('./config');
 
 app.use(cors());
 app.use(express.json());
 
 
-app.listen(PORT, () => {
-  console.log('server run on port 80');
+app.listen(port, () => {
+  console.log(`server run on port ${port}`);
 });
 
 client.connect()
