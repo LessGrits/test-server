@@ -8,9 +8,10 @@ const client = new Client({
   }
 });
 
-// client.connect()
-//   .then(()=>console.log('connection success'))
-  /*.then(()=> client.query(
+/*
+client.connect()
+  .then(()=>console.log('connection success'))
+  .then(()=> client.query(
     `CREATE TABLE Hotdogs (
     hotdog_id SERIAL PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -18,11 +19,12 @@ const client = new Client({
     description varchar(255),
     price int
     );`
-  ))*/
-  // .catch(e => console.error(e))
-  //
-  // .then(()=> client.query('SELECT * FROM Hotdogs '))
-  // .then( results => console.table(results.rows));
+  ))
+  .catch(e => console.error(e))
+
+  .then(()=> client.query('SELECT * FROM Hotdogs '))
+  .then( results => console.table(results.rows));
+*/
 
 module.exports = client;
 

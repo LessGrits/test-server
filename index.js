@@ -22,9 +22,9 @@ client.connect()
 app.post('/hotdogs', async (req, res) => {
   try {
     console.log(req.body);
-    const {description, name, price, photoUrl} = req.body;
-    const newHotdog = await client.query(`INSERT INTO Hotdogs (name,photo_url,description,price) VALUES ($1,$2,$3,$4 )`,
-      [name, photoUrl, description, price]
+    const {description, name, price, photoUrl,hotdog_id} = req.body;
+    const newHotdog = await client.query(`INSERT INTO Hotdogs (name,photo_url,description,price,hotdog_id) VALUES ($1,$2,$3,$4,$5 )`,
+      [name, photoUrl, description, price, hotdog_id]
     );
     res.json(newHotdog)
   } catch (err) {
